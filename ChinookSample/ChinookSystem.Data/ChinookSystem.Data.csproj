@@ -59,6 +59,7 @@
     <Compile Include="POCOs\AlbumTrackSummary.cs" />
     <Compile Include="POCOs\ArtistAlbum.cs" />
     <Compile Include="POCOs\CustomerContact.cs" />
+    <Compile Include="POCOs\EmployeeNameList.cs" />
     <Compile Include="POCOs\MediaTypeTrackCounter.cs" />
     <Compile Include="POCOs\RepresentativeCustomers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
