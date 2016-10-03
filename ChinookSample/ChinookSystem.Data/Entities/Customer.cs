@@ -14,6 +14,8 @@ namespace ChinookSystem.Data.Entities
     public class Customer
     {
         public int CustomerID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
@@ -22,7 +24,8 @@ namespace ChinookSystem.Data.Entities
         public string Phone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
-        public string SupportRepID { get; set; }
+        [ForeignKey("Employee")]
+        public int? SupportRepId { get; set; }
 
         public virtual Employee Employee { get; set; }
     }

@@ -17,19 +17,21 @@ namespace ChinookSystem.DAL
     //Access restricted to within the component library.
     //Inherit DbContext for Entity Framework requires
     //System.Data.Entity
-    internal class ChinookContext:DbContext
+    internal class ChinookContext : DbContext
     {
         //Pass the connection string name to the DbContext using the :base()
         public ChinookContext() : base("ChinookDB")
         {
         }
-    
+
 
         //Setup DbSet properties.
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<MediaType> MediaTypes { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 
 }
