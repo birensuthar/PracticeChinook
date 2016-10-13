@@ -17,5 +17,20 @@ namespace ChinookSystem.Security
         {
 
         }
+
+        //This method will be executed when the application starts up under IIS (Internet Information Services).
+        public void AddStartupRoles()
+        {
+            foreach (string roleName in SecurityRoles.StartupSecurityRoles)
+            {
+                //Check if the role exists in the security tables located in the database.
+                if(!Roles.Any(r => r.Name.Equals(roleName)))
+                {
+                    //Role is currently not on the database.
+                    this.Create(new IdentityRole(roleName));
+                }
+            }
+        }
+
     }
 }
