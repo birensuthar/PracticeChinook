@@ -9,6 +9,21 @@ public partial class Queries_RepresentativeCustomers : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!Page.IsPostBack)
+        {
+            //Are you logged in?
+            if (!Request.IsAuthenticated)
+            {
+                Response.Redirect("~/Account/Login.aspx");
+            }
+            //else
+            //{
+            //    //Are you allowed to be on this page?
+            //    if (!User.IsInRole(SecurityRoles.WebSiteAdmins))
+            //    {
+            //        Response.Redirect("~/Default.aspx");
+            //    }
+            //}
+        }
     }
 }

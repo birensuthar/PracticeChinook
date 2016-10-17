@@ -14,4 +14,7 @@
         <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
         <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
     </address>
+
+    <p>This is the login for the webmaster: <br />userid= Webmaster <br />password: Pa$$word1</p>
+    <h2>Remember to remove these lines BEFORE production</h2>
 </asp:Content>
