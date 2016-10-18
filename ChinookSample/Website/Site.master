@@ -88,6 +88,7 @@
                                 <asp:MenuItem Text="Rep Customers" NavigateUrl="~/Queries/RepresentativeCustomers"></asp:MenuItem>
                             </asp:MenuItem>
 
+                            <asp:MenuItem Text="Users/Roles" NavigateUrl="~/Admin/Security/Default"></asp:MenuItem>
                             <asp:MenuItem Text="About" NavigateUrl="~/About"></asp:MenuItem>
                             <asp:MenuItem Text="Contact" NavigateUrl="~/Contact"></asp:MenuItem>
 
