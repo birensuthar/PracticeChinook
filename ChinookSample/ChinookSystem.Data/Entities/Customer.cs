@@ -13,7 +13,7 @@ namespace ChinookSystem.Data.Entities
 {
     public class Customer
     {
-        public int CustomerID { get; set; }
+        public int CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
@@ -28,5 +28,7 @@ namespace ChinookSystem.Data.Entities
         public int? SupportRepId { get; set; }
 
         public virtual Employee Employee { get; set; }
+
     }
 }
+

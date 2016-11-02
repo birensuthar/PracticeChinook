@@ -82,4 +82,33 @@ public partial class Admin_Security_Default : System.Web.UI.Page
             // RefreshAll(sender, e); - Can't do this because the objecttype GridViewSelectEventArgs is not equal to EventArgs
         }
     }
+
+    protected void UserListView_ItemInserting(object sender, ListViewInsertEventArgs e)
+    {
+        //One needs to walk through the checkboxlist
+
+        //Create the RoleMembership string List<> of selected roles
+        var addtoroles = new List<string>();
+
+        //Point to the physical checkboxlist control
+        var roles = e.Item.FindControl("RoleMemberships") as CheckBoxList;
+
+        //Does the control exist? -Safety Check
+        if(roles != null)
+        {
+            //Cycle through the checkboxList
+            //Find which roles have been selected (checked)
+            //Add to the List<string>
+            //Assign the List<string> to the inserting instance represented by e.
+            foreach(ListItem role in roles.Items)
+            {
+                if(role.Selected)
+                {
+                    addtoroles.Add(role.Value);
+                }
+                e.Values["RoleMemberships"] = addtoroles;
+            }
+        }
+
+    }
 }

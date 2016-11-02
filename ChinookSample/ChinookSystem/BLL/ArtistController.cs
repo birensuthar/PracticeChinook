@@ -44,11 +44,11 @@ namespace ChinookSystem.BLL
                 //the entity class definitions.
                 var results = from x in context.Albums
                               where x.ReleaseYear == 2008
-                              orderby x.Artists.Name, x.Title
+                              orderby x.Artist.Name, x.Title
                               select new ArtistAlbum
                               {
                                   //Name and Title are POCO class property names.
-                                  Name = x.Artists.Name,
+                                  Name = x.Artist.Name,
                                   Title = x.Title
                               };
                 //The following requires the query data in memory.

@@ -11,19 +11,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChinookSystem.Data.Entities
 {
-
-    //Point to the sql table that this file maps
+    //point to the sql table that this file maps
     [Table("Albums")]
-
     public class Album
     {
-        //Key notations is optional if the sql pkey ends in id.
-        //Required if default entity is NOT Identity
-        //Required if pkey is compound.
+        //Key notations is optional if the sql pkey
+        //ends in ID or Id
+        //required if default of entity is NOT Identity
+        //required if pkey is compound
 
-        //Properties can be fully implemented or auto implemented.
-        //Property names should use SQL attributes name
-        //Properties should be in the same order as sql attributes for ease of maintenance.
+        //properties can be fully implemented or
+        //auto implemented
+        //property names should use sql attribute name
+        //properties should be listed in the same order
+        //     as sql table attributes for easy of maintenance
         [Key]
         public int AlbumId { get; set; }
         public string Title { get; set; }
@@ -31,12 +32,12 @@ namespace ChinookSystem.Data.Entities
         public int ReleaseYear { get; set; }
         public string ReleaseLabel { get; set; }
 
-        //Navigation properties for use by linq.
-        //These properties will be of type virutal
-        //There are 2 types of navigation properties. 
-        //Properties that point to "children" use ICollection<T>
-        //Properties that point to "Parent" use the Parent Name as the datatpye
+        //navigation properties for use by Linq
+        //these properties will be of type vitural
+        //there are two types of navigation properties
+        //properties that point to "children" use ICollection<T>
+        //properties that point to "Parent" use ParentName as the datatype
         public virtual ICollection<Track> Tracks { get; set; }
-        public virtual Artist Artists { get; set; }
+        public virtual Artist Artist { get; set; }
     }
 }

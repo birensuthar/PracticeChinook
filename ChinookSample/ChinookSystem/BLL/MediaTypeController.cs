@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#region Additional Namespaces
-using System.ComponentModel; //For ODS
+#region Additonal Namespaces
+using System.ComponentModel; //ODS
 using ChinookSystem.Data.Entities;
 using ChinookSystem.Data.POCOs;
 using ChinookSystem.DAL;
@@ -14,22 +14,21 @@ using ChinookSystem.DAL;
 namespace ChinookSystem.BLL
 {
     [DataObject]
-    public class EmployeeController
+    public class MediaTypeController
     {
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<EmployeeNameList> EmployeeNameList_Get()
+        public List<ForeignKeyList> MediaTypeList()
         {
             using (var context = new ChinookContext())
             {
-                var results = from x in context.Employees
-                              orderby x.LastName, x.FirstName
-                              select new EmployeeNameList
+                var results = from x in context.MediaTypes
+                              orderby x.Name
+                              select new ForeignKeyList()
                               {
-                                  EmployeeID = x.EmployeeId,
-                                  Name = x.LastName + ", " + x.FirstName
+                                  PFKeyIdentifier = x.MediaTypeId,
+                                  DisplayText = x.Name
                               };
                 return results.ToList();
-                            
             }
         }
     }
