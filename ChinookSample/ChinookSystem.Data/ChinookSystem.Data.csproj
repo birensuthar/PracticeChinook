@@ -58,7 +58,8 @@
     <Compile Include="Entities\Invoice.cs" />
     <Compile Include="Entities\InvoiceLine.cs" />
     <Compile Include="Entities\MediaType.cs" />
-    <Compile Include="Entities\PlayList.cs" />
+    <Compile Include="Entities\Playlist.cs" />
+    <Compile Include="Entities\PlaylistTrack.cs" />
     <Compile Include="Entities\Track.cs" />
     <Compile Include="POCOs\AlbumTrackSummary.cs" />
     <Compile Include="POCOs\ArtistAlbum.cs" />
@@ -67,6 +68,8 @@
     <Compile Include="POCOs\ForeignKeyList.cs" />
     <Compile Include="POCOs\MediaTypeTrackCounter.cs" />
     <Compile Include="POCOs\RepresentativeCustomers.cs" />
+    <Compile Include="POCOs\TracksForPlaylist.cs" />
+    <Compile Include="POCOs\TracksForPlaylistSelection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
