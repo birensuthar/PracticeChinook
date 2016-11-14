@@ -5,55 +5,58 @@ using System.Text;
 using System.Threading.Tasks;
 
 #region Additonal Namespaces
-using System.ComponentModel;        //ODS
-using ChinookSystem.Data.Entities;  //Track Entity
-using ChinookSystem.Data.POCOs;     //May or may not be needed
-using ChinookSystem.DAL;            //Will Definitely needed
+using System.ComponentModel; //ODS
+using ChinookSystem.Data.Entities;
+using ChinookSystem.Data.POCOs;
+using ChinookSystem.DAL;
 #endregion
 
 namespace ChinookSystem.BLL
 {
+    #region List All and Find by Key
     [DataObject]
     public class TrackController
     {
-        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        [DataObjectMethod(DataObjectMethodType.Select,false)]
         public List<Track> ListTracks()
         {
             using (var context = new ChinookContext())
             {
-                //Return all records all attributes.
+                //return all records all attributes
                 return context.Tracks.ToList();
             }
         }
 
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public Track Get_Track(int trackid)
+        public Track GetTrack(int trackid)
         {
             using (var context = new ChinookContext())
             {
-                //Return a records all attributes.
+                //return a record all attributes
                 return context.Tracks.Find(trackid);
             }
         }
-
+        #endregion
+        #region Add, Update and Delete
         [DataObjectMethod(DataObjectMethodType.Insert, true)]
         public void AddTrack(Track trackinfo)
         {
             using (var context = new ChinookContext())
             {
-                //Any business rules that may prevent you from doing an actual add.
+                //any business rules
                 if (trackinfo.UnitPrice > 1.0m)
-                    throw new Exception("Bob's your uncle");
-                //Any data refinements
+                    throw new Exception("Bob's your uncle.");
+                //any data refinements
+                //review of using iif
+                //composer can be a null string
+                //we do not wish to store an empty string
+                trackinfo.Composer = string.IsNullOrEmpty(trackinfo.Composer) ?
+                                            null : trackinfo.Composer;
 
-                //This is a review of using iif (Immediate IF)
-                //Composer can be a null string, we dont with to store an empty string.
-                trackinfo.Composer = string.IsNullOrEmpty(trackinfo.Composer) ? null : trackinfo.Composer;
-
-                //Add the instance of trackinfo to the database.
+                //add the instance of trackinfo to the database
                 context.Tracks.Add(trackinfo);
 
-                //Commit of the transaction.
+                //commit of the transaction
                 context.SaveChanges();
             }
         }
@@ -63,23 +66,26 @@ namespace ChinookSystem.BLL
         {
             using (var context = new ChinookContext())
             {
-                //Any business rules that may prevent you from doing an actual add.
+                //any business rules
 
-                //Any data refinements
+                //any data refinements
+                //review of using iif
+                //composer can be a null string
+                //we do not wish to store an empty string
+                trackinfo.Composer = string.IsNullOrEmpty(trackinfo.Composer) ?
+                                            null : trackinfo.Composer;
 
-                //This is a review of using iif (Immediate IF)
-                //Composer can be a null string, we dont with to store an empty string.
-                trackinfo.Composer = string.IsNullOrEmpty(trackinfo.Composer) ? null : trackinfo.Composer;
+                //update the existing instance of trackinfo on the database
+                context.Entry(trackinfo).State = 
+                    System.Data.Entity.EntityState.Modified;
 
-                //Update the existing instance of trackinfo on the database.
-                context.Entry(trackinfo).State = System.Data.Entity.EntityState.Modified;
-
-                //Commit of the transaction.
+                //commit of the transaction
                 context.SaveChanges();
             }
         }
 
-        //The delete is an overloaded method technique
+
+        //the delete is an overload method technique
 
         [DataObjectMethod(DataObjectMethodType.Delete,true)]
         public void DeleteTrack(Track trackinfo)
@@ -91,19 +97,18 @@ namespace ChinookSystem.BLL
         {
             using (var context = new ChinookContext())
             {
-                //Any business rules
+                //any business rules
 
-                //Do the delete.
-                //Find the existing record on the database.
-
+                //do the delete
+                //find the existing record on the database
                 var existing = context.Tracks.Find(trackid);
-                //Delete the record from the database.
+                //delete the record from the database
                 context.Tracks.Remove(existing);
                 //commit the transaction
                 context.SaveChanges();
             }
         }
-
+        #endregion
         #region Business Processes
         public List<TracksForPlaylistSelection> Get_TracksForPlaylistSelection(int id, string fetchby)
         {
@@ -116,6 +121,60 @@ namespace ChinookSystem.BLL
                         {
                             results = (from x in context.Tracks
                                        where x.Album.ArtistId == id
+                                       select new TracksForPlaylistSelection
+                                       {
+                                           TrackId = x.TrackId,
+                                           Name = x.Name,
+                                           Title = x.Album.Title,
+                                           MediaName = x.MediaType.Name,
+                                           GenreName = x.Genre.Name,
+                                           Composer = x.Composer,
+                                           Milliseconds = x.Milliseconds,
+                                           Bytes = x.Bytes,
+                                           UnitPrice = x.UnitPrice
+                                       }).ToList();
+                            break;
+                        }
+                    case "Media":
+                        {
+                            results = (from x in context.Tracks
+                                       where x.MediaType.MediaTypeId == id
+                                       select new TracksForPlaylistSelection
+                                       {
+                                           TrackId = x.TrackId,
+                                           Name = x.Name,
+                                           Title = x.Album.Title,
+                                           MediaName = x.MediaType.Name,
+                                           GenreName = x.Genre.Name,
+                                           Composer = x.Composer,
+                                           Milliseconds = x.Milliseconds,
+                                           Bytes = x.Bytes,
+                                           UnitPrice = x.UnitPrice
+                                       }).ToList();
+                            break;
+                        }
+                    case "Genre":
+                        {
+                            results = (from x in context.Tracks
+                                       where x.Genre.GenreId == id
+                                       select new TracksForPlaylistSelection
+                                       {
+                                           TrackId = x.TrackId,
+                                           Name = x.Name,
+                                           Title = x.Album.Title,
+                                           MediaName = x.MediaType.Name,
+                                           GenreName = x.Genre.Name,
+                                           Composer = x.Composer,
+                                           Milliseconds = x.Milliseconds,
+                                           Bytes = x.Bytes,
+                                           UnitPrice = x.UnitPrice
+                                       }).ToList();
+                            break;
+                        }
+                    default:
+                        {
+                            results = (from x in context.Tracks
+                                       where x.Album.AlbumId == id
                                        select new TracksForPlaylistSelection
                                        {
                                            TrackId = x.TrackId,

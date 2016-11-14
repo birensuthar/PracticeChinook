@@ -63,27 +63,27 @@
                 <td>
                     <asp:TextBox Text='<%# Bind("Name") %>' runat="server" ID="NameTextBox" /></td>
                 <td>
-                    <asp:DropDownList ID="AlbumList" runat="server" 
-                        DataSourceID="AlbumListODS" 
-                        DataTextField="DisplayText" 
+                    <asp:DropDownList ID="AlbumList" runat="server"
+                        DataSourceID="AlbumListODS"
+                        DataTextField="DisplayText"
                         DataValueField="PFKeyIdentifier"
-                        selectedvalue='<%# Bind("AlbumId") %>'>
+                        SelectedValue='<%# Bind("AlbumId") %>'>
                     </asp:DropDownList>
                 </td>
                 <td>
-                    <asp:DropDownList ID="MediaTypeList" runat="server" 
-                        DataSourceID="MediaTypeListODS" 
-                        DataTextField="DisplayText" 
+                    <asp:DropDownList ID="MediaTypeList" runat="server"
+                        DataSourceID="MediaTypeListODS"
+                        DataTextField="DisplayText"
                         DataValueField="PFKeyIdentifier"
-                        selectedvalue='<%# Bind("MediaTypeId") %>'>
+                        SelectedValue='<%# Bind("MediaTypeId") %>'>
                     </asp:DropDownList>
                 </td>
                 <td>
-                    <asp:DropDownList ID="GenreList" runat="server" 
-                        DataSourceID="GenreListODS" 
-                        DataTextField="DisplayText" 
+                    <asp:DropDownList ID="GenreList" runat="server"
+                        DataSourceID="GenreListODS"
+                        DataTextField="DisplayText"
                         DataValueField="PFKeyIdentifier"
-                        selectedvalue='<%# Bind("GenreId") %>'>
+                        SelectedValue='<%# Bind("GenreId") %>'>
                     </asp:DropDownList>
                 </td>
                 <td>
@@ -114,27 +114,27 @@
                 <td>
                     <asp:TextBox Text='<%# Bind("Name") %>' runat="server" ID="NameTextBox" /></td>
                 <td>
-                    <asp:DropDownList ID="AlbumList" runat="server" 
-                        DataSourceID="AlbumListODS" 
-                        DataTextField="DisplayText" 
+                    <asp:DropDownList ID="AlbumList" runat="server"
+                        DataSourceID="AlbumListODS"
+                        DataTextField="DisplayText"
                         DataValueField="PFKeyIdentifier"
-                        selectedvalue='<%# Bind("AlbumId") %>'>
+                        SelectedValue='<%# Bind("AlbumId") %>'>
                     </asp:DropDownList>
                 </td>
                 <td>
-                    <asp:DropDownList ID="MediaTypeList" runat="server" 
-                        DataSourceID="MediaTypeListODS" 
-                        DataTextField="DisplayText" 
+                    <asp:DropDownList ID="MediaTypeList" runat="server"
+                        DataSourceID="MediaTypeListODS"
+                        DataTextField="DisplayText"
                         DataValueField="PFKeyIdentifier"
-                        selectedvalue='<%# Bind("MediaTypeId") %>'>
+                        SelectedValue='<%# Bind("MediaTypeId") %>'>
                     </asp:DropDownList>
                 </td>
                 <td>
-                    <asp:DropDownList ID="GenreList" runat="server" 
-                        DataSourceID="GenreListODS" 
-                        DataTextField="DisplayText" 
+                    <asp:DropDownList ID="GenreList" runat="server"
+                        DataSourceID="GenreListODS"
+                        DataTextField="DisplayText"
                         DataValueField="PFKeyIdentifier"
-                        selectedvalue='<%# Bind("GenreId") %>'>
+                        SelectedValue='<%# Bind("GenreId") %>'>
                     </asp:DropDownList>
                 </td>
                 <td>
