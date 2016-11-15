@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 
 public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
 {
+    #region Key Page Event Handlers and Overrides
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -22,8 +23,18 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
             TrackSearchList.DataSource = null;
         }
     }
+    protected void Page_PreRenderComplete(object sender, EventArgs e)
+    {
+        // PreRenderComplete occurs just after databindings page events
+        // And saves to viewstate
+        if ((TrackSearchList.FindControl("DataPager2") as DataPager) != null)
+        {
+            // Trick on search to avoid "No data" on results when old page is greater than actual row count                
+            if ((TrackSearchList.FindControl("DataPager2") as DataPager).StartRowIndex > (TrackSearchList.FindControl("DataPager2") as DataPager).TotalRowCount)
+                (TrackSearchList.FindControl("DataPager2") as DataPager).SetPageProperties(0, (TrackSearchList.FindControl("DataPager2") as DataPager).MaximumRows, true);
+        }
+    }
 
-   
     protected override void Render(HtmlTextWriter writer)
     { 
         //this code sets up the ability to click anywhere on a row of a specified gridview :CurrentPlayList
@@ -38,9 +49,10 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
 
             }
         }
-
+        
         base.Render(writer);
     }
+    #endregion
 
     #region Search Fetch buttons
     protected void ArtistFetch_Click(object sender, EventArgs e)
@@ -51,29 +63,9 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
     public void FetchTracksForArtist()
     {
         int id = int.Parse(ArtistList.SelectedValue);
-        TrackController sysmgr = new TrackController();
-        List<TracksForPlaylistSelection> results = sysmgr.Get_TracksForPlaylistSelection(id, "Artist");
-        TrackSearchList.DataSource = results;
-        TrackSearchList.DataBind();
-        /*
-        this next logic test is to determine if the previous refresh for the
-        track list is from the same search method
-
-        if not then the DataPager is reset to page 1 of the displayed data and the
-        ListView data is DataBind() is run again (true).
-
-        this code must be placed after the first binding of the data for the DataPager
-        to exists.
-
-        */
-        if (!TracksBy.Text.Equals("Artist"))
-        {
-            int maxrows=(TrackSearchList.FindControl("DataPager1") as DataPager).MaximumRows;
-            (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(0,maxrows, true);
-        }
-        
-        //indicates which search method is currently being used.
         TracksBy.Text = "Artist";
+        SearchArgID.Text = id.ToString();
+        TrackSearchList.DataBind();
     }
     protected void MediaTypeFetch_Click(object sender, EventArgs e)
     {
@@ -82,17 +74,9 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
     public void FetchTracksForMedia()
     {
         int id = int.Parse(MediaTypeList.SelectedValue);
-        TrackController sysmgr = new TrackController();
-        List<TracksForPlaylistSelection> results = sysmgr.Get_TracksForPlaylistSelection(id, "Media");
-        TrackSearchList.DataSource = results;
-        TrackSearchList.DataBind();
-        if (!TracksBy.Text.Equals("Media"))
-        {
-            int maxrows = (TrackSearchList.FindControl("DataPager1") as DataPager).MaximumRows;
-            (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(0, maxrows, true);
-        }
-       
         TracksBy.Text = "Media";
+        SearchArgID.Text = id.ToString();
+        TrackSearchList.DataBind();
     }
 
     protected void GenreFetch_Click(object sender, EventArgs e)
@@ -102,17 +86,9 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
     public void FetchTracksForGenre()
     {
         int id = int.Parse(GenreList.SelectedValue);
-        TrackController sysmgr = new TrackController();
-        List<TracksForPlaylistSelection> results = sysmgr.Get_TracksForPlaylistSelection(id, "Genre");
-        TrackSearchList.DataSource = results;
-        TrackSearchList.DataBind();
-        if (!TracksBy.Text.Equals("Genre"))
-        {
-            int maxrows = (TrackSearchList.FindControl("DataPager1") as DataPager).MaximumRows;
-            (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(0, maxrows, true);
-        }
-       
         TracksBy.Text = "Genre";
+        SearchArgID.Text = id.ToString();
+        TrackSearchList.DataBind();
     }
 
     protected void AlbumFetch_Click(object sender, EventArgs e)
@@ -122,53 +98,11 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
     public void FetchTracksForAlbum()
     {
         int id = int.Parse(AlbumList.SelectedValue);
-        TrackController sysmgr = new TrackController();
-        List<TracksForPlaylistSelection> results = sysmgr.Get_TracksForPlaylistSelection(id, "Album");
-        TrackSearchList.DataSource = results;
-        TrackSearchList.DataBind();
-        if (!TracksBy.Text.Equals("Album"))
-        {
-            int maxrows = (TrackSearchList.FindControl("DataPager1") as DataPager).MaximumRows;
-            (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(0, maxrows, true);
-        }
-        
         TracksBy.Text = "Album";
+        SearchArgID.Text = id.ToString();
+        TrackSearchList.DataBind();
     }
-    protected void TrackSearchList_PagePropertiesChanging(object sender, PagePropertiesChangingEventArgs e)
-    {
-        MessageUserControl.TryRun(() =>
-        {
-            switch (TracksBy.Text)
-            {
-                case "Artist":
-                    {
-                        (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
-                        this.FetchTracksForArtist();
-                        break;
-                    }
-                case "Media":
-                    {
-                        (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
-                        this.FetchTracksForMedia();
-                        break;
-                    }
-                case "Genre":
-                    {
-                        (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
-                        this.FetchTracksForGenre();
-                        break;
-                    }
-                case "Album":
-                    {
-                        (TrackSearchList.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
-                        this.FetchTracksForAlbum();
-                        break;
-                    }
-            }
 
-        });
-        
-    }
     #endregion
 
     #region Get a customerid via the log in
@@ -363,4 +297,5 @@ public partial class BusinessProcesses_ManagePlayList : System.Web.UI.Page
         }
     }
     #endregion
+    
 }
